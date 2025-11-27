@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hanaa & Hassan | Forever</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { cairo: ['Cairo', 'sans-serif'] },
+                    colors: {
+                        primary: "#6366f1", 
+                        secondary: "#1e293b",
+                        accent: "#ec4899",
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                        'pop-in': 'popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.8)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            height: 100dvh;
+            width: 100vw;
+            margin: 0;
+            overflow: hidden;
+            transition: background-color 0.3s, color 0.3s;
+            user-select: none;
+            -webkit-user-select: none;
+            overscroll-behavior-y: none;
+        }
+
+        .dark body { background-color: #0f172a; color: #e2e8f0; }
+        body:not(.dark) { background-color: #fff1f2; color: #334155; }
+
+        .heart-shape {
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            mask-size: contain; mask-repeat: no-repeat; mask-position: center;
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center;
+        }
+
+        .msg-bubble {
+            max-width: 85%; padding: 12px 16px; font-size: 0.95rem; line-height: 1.6;
+            position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.1s linear; touch-action: pan-y; will-change: transform;
+        }
+        .msg-snap-back { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; }
+
+        .dark .msg-me { background: #6366f1; color: white; }
+        .dark .msg-partner { background: #334155; color: #f1f5f9; }
+        body:not(.dark) .msg-me { background: #ec4899; color: white; }
+        body:not(.dark) .msg-partner { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; }
+
+        .msg-me { border-radius: 20px 20px 4px 20px; }
+        .msg-partner { border-radius: 20px 20px 20px 4px; }
+
+        .reaction-badge {
+            position: absolute; bottom: -10px; padding: 2px 6px; border-radius: 12px; font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 10; display: flex; align-items: center; gap: 2px; cursor: pointer;
+        }
+        .dark .reaction-badge { background: #1e293b; border: 1px solid #334155; }
+        body:not(.dark) .reaction-badge { background: #ffffff; border: 1px solid #e2e8f0; }
+
+        ::-webkit-scrollbar { width: 5px; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+        body:not(.dark) ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+
+        .loader { width: 24px; height: 24px; border: 3px solid rgba(100,100,100,0.1); border-top-color: #ec4899; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .emoji-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        
+        .logout-btn { background-color: #ef4444 !important; color: white !important; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.5); }
+        .logout-btn:hover { background-color: #dc2626 !important; }
+
+        /* Custom Audio Seeker Styling */
+        input[type=range].audio-seeker {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+            cursor: pointer;
+            height: 4px;
+            border-radius: 2px;
+        }
+        input[type=range].audio-seeker::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            background: #6366f1; /* Primary Color */
+            margin-top: -4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .dark input[type=range].audio-seeker::-webkit-slider-thumb {
+            background: #a5b4fc;
+        }
+        input[type=range].audio-seeker::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+        }
+        .dark input[type=range].audio-seeker::-webkit-slider-runnable-track {
+            background: rgba(255,255,255,0.2);
+        }
+
+        @media (min-width: 768px) {
+            #main-layout { max-width: 480px; margin: 0 auto; height: 100vh; border-left: 1px solid rgba(0,0,0,0.1); border-right: 1px solid rgba(0,0,0,0.1); }
+        }
+    </style>
+</head>
+<body class="bg-rose-50 dark:bg-slate-900 transition-colors duration-300">
+    
+    <div id="main-layout" class="relative h-full flex flex-col bg-rose-50 dark:bg-slate-900 transition-colors duration-300 shadow-2xl">
+
+        <div id="login-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-rose-100 to-indigo-100 dark:from-slate-900 dark:to-slate-800">
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="absolute top-10 right-10 w-32 h-32 bg-pink-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
+                <div class="absolute bottom-10 left-10 w-40 h-40 bg-indigo-400/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+            </div>
+
+            <div class="relative w-full max-w-sm text-center animate-fade-in-up">
+                <div class="relative w-48 h-48 mx-auto mb-8 animate-float group">
+                    <button onclick="toggleTheme()" class="absolute -right-8 top-0 w-10 h-10 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur shadow-lg flex items-center justify-center text-slate-600 dark:text-yellow-400 transition hover:scale-110 z-50 border border-white/50 dark:border-slate-600">
+                        <i class="fa-solid fa-moon dark:hidden"></i>
+                        <i class="fa-solid fa-sun hidden dark:block"></i>
+                    </button>
+                    <div class="relative w-full h-full cursor-pointer" onclick="attemptChangeLoginPic()">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-pink-500 to-indigo-500 rounded-full blur opacity-40 group-hover:opacity-60 transition"></div>
+                        <div class="relative w-full h-full heart-shape overflow-hidden bg-white dark:bg-slate-700 shadow-2xl border-4 border-white dark:border-slate-600 flex items-center justify-center">
+                            <img id="login-main-img" src="https://ui-avatars.com/api/?name=H+H&background=ec4899&color=fff&size=256" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                                <i class="fa-solid fa-camera text-white text-3xl drop-shadow-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="text-4xl font-bold mb-2 text-slate-800 dark:text-white font-cairo drop-shadow-sm">هناء <span class="text-pink-500 text-2xl">💍</span> حسن</h1>
+                <p class="mb-8 text-slate-600 dark:text-slate-400 text-sm">بحبك يا هنوءة♥️♥️ ملجئي الخاص بعيداً عن العالم ♥️♥️💍</p>
+                
+                <div class="bg-white/50 dark:bg-slate-800/50 backdrop-blur-md p-2 rounded-2xl shadow-xl border border-white/20 dark:border-slate-700/50">
+                    <input type="password" inputmode="numeric" id="password-input" placeholder="اكتبي تاريخ ميلادك يا حبيبتي ♥️" 
+                        class="w-full bg-transparent dark:text-white text-slate-800 py-4 px-4 rounded-xl text-center text-xl tracking-[0.5em] focus:outline-none placeholder:text-slate-400 placeholder:tracking-normal placeholder:text-sm">
+                </div>
+                
+                <button onclick="attemptLogin()" class="mt-4 w-full bg-gradient-to-r from-pink-500 to-indigo-600 hover:from-pink-600 hover:to-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg active:scale-95 transition-all">
+                      يلا ندخل عالمنا الخاص 👀💍♥️
+                </button>
+                <p id="error-msg" class="text-rose-500 mt-4 text-sm font-bold hidden bg-rose-500/10 p-2 rounded-lg"></p>
+            </div>
+        </div>
+
+        <div id="chat-interface" class="hidden flex flex-col h-full relative bg-rose-50 dark:bg-slate-900">
+            <header class="absolute top-0 left-0 right-0 z-20 bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-pink-100 dark:border-slate-800 h-[70px] px-4 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="relative cursor-pointer group" onclick="changeMyProfilePic()">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-600 overflow-hidden shadow-md border-2 border-white dark:border-slate-700">
+                            <img id="header-avatar-img" src="" class="w-full h-full object-cover hidden">
+                            <div id="header-avatar-initial" class="w-full h-full flex items-center justify-center text-indigo-600 dark:text-white font-bold text-lg">?</div>
+                        </div>
+                        <span id="status-dot" class="absolute bottom-0 right-0 w-3 h-3 bg-slate-400 border-2 border-white dark:border-slate-900 rounded-full"></span>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg text-slate-800 dark:text-white leading-tight" id="header-title">...</h2>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium h-[15px]" id="header-subtitle">جاري الاتصال...</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleTheme()" class="w-10 h-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-yellow-400 transition active:scale-90 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-moon dark:hidden"></i>
+                        <i class="fa-solid fa-sun hidden dark:block"></i>
+                    </button>
+                    <button onclick="openLoveCounter()" class="w-10 h-10 rounded-full hover:bg-pink-100 dark:hover:bg-slate-800 text-amber-500 transition active:scale-90 flex items-center justify-center border border-amber-200 dark:border-slate-700"><i class="fa-solid fa-ring"></i></button>
+                    <button onclick="openGallery()" class="w-10 h-10 rounded-full hover:bg-indigo-100 dark:hover:bg-slate-800 text-indigo-500 transition active:scale-90 flex items-center justify-center"><i class="fa-solid fa-images"></i></button>
+                    <button onclick="logout()" class="logout-btn w-10 h-10 rounded-full flex items-center justify-center transition active:scale-90"><i class="fa-solid fa-power-off text-lg"></i></button>
+                </div>
+            </header>
+
+            <div class="flex-1 relative w-full overflow-hidden bg-rose-50 dark:bg-slate-900" onclick="hideReactionMenu()">
+                <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#6366f1 1px, transparent 1px); background-size: 20px 20px;"></div>
+                <div id="loading-spinner" class="absolute inset-0 flex items-center justify-center z-30"><div class="loader"></div></div>
+                <main id="messages-container" class="absolute inset-0 overflow-y-auto pt-20 pb-28 px-4 flex flex-col gap-1 w-full scroll-smooth"></main>
+                
+                <div id="reaction-menu" class="hidden absolute z-50 bg-white dark:bg-slate-800 rounded-full shadow-2xl border border-gray-200 dark:border-slate-600 p-2 flex gap-2 animate-pop-in">
+                    <button onclick="submitReaction('❤️')" class="text-2xl hover:scale-125 transition">❤️</button>
+                    <button onclick="submitReaction('😂')" class="text-2xl hover:scale-125 transition">😂</button>
+                    <button onclick="submitReaction('🥰')" class="text-2xl hover:scale-125 transition">🥰</button>
+                    <button onclick="submitReaction('🥺')" class="text-2xl hover:scale-125 transition">🥺</button>
+                    <button onclick="submitReaction('😡')" class="text-2xl hover:scale-125 transition">😡</button>
+                    <button onclick="submitReaction('👍')" class="text-2xl hover:scale-125 transition">👍</button>
+                </div>
+            </div>
+
+            <div id="emoji-bar" class="hidden absolute bottom-24 right-4 left-4 md:left-auto md:w-80 z-50 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-2xl rounded-2xl p-4 animate-pop-in origin-bottom-right">
+                <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-100 dark:border-slate-700">
+                    <span class="text-xs text-slate-500 dark:text-slate-400 font-bold">إيموشنز</span>
+                    <button onclick="toggleEmojiBar()" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="emoji-grid h-48 overflow-y-auto pr-1 custom-scrollbar dark:text-white text-slate-800"></div>
+            </div>
+
+            <footer class="absolute bottom-0 left-0 right-0 z-20 bg-white dark:bg-slate-900 p-4 pt-2 border-t border-pink-100 dark:border-slate-800 shadow-lg">
+                <div id="reply-preview-box" class="hidden mb-2 mx-1 bg-gray-100 dark:bg-slate-800 border-l-4 border-indigo-500 rounded-r-lg p-3 flex justify-between items-center shadow-lg animate-fade-in-up">
+                    <div class="overflow-hidden px-2">
+                        <p class="text-indigo-500 dark:text-indigo-400 text-xs font-bold mb-1" id="reply-p-name"></p>
+                        <p class="text-slate-600 dark:text-slate-300 text-xs truncate" id="reply-p-text"></p>
+                    </div>
+                    <button onclick="cancelReply()" class="text-slate-500 hover:text-red-500 px-2"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div id="input-bar-normal" class="bg-gray-100 dark:bg-slate-800 rounded-3xl p-2 flex items-end gap-2 shadow-inner transition-colors relative">
+                    <input type="file" id="image-input" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                    <input type="file" id="special-upload-input" accept="image/*" class="hidden" onchange="handleSpecialUpload(this)">
+                    
+                    <button onclick="document.getElementById('image-input').click()" class="h-10 w-10 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition flex items-center justify-center"><i class="fa-regular fa-image text-lg"></i></button>
+                    <button onclick="toggleEmojiBar()" class="h-10 w-10 rounded-full text-slate-500 dark:text-slate-400 hover:text-yellow-500 hover:bg-yellow-500/10 transition flex items-center justify-center"><i class="fa-regular fa-face-smile text-lg"></i></button>
+                    
+                    <div class="flex-1 min-h-[44px] flex items-center px-2 py-1">
+                        <textarea id="message-input" rows="1" placeholder="اكتب رسالتك..." class="w-full bg-transparent text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none resize-none py-2 max-h-24 text-sm font-medium" oninput="handleTyping(); this.style.height='';this.style.height=this.scrollHeight+'px'" onkeypress="handleKeyPress(event)"></textarea>
+                    </div>
+                    
+                    <button id="record-btn" onclick="startRecording()" class="h-10 w-10 rounded-full text-slate-500 dark:text-slate-400 hover:text-red-500 hover:bg-red-500/10 transition flex items-center justify-center"><i class="fa-solid fa-microphone text-lg"></i></button>
+                    
+                    <button onclick="sendMessage()" class="h-10 w-10 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-95 flex items-center justify-center transition-all"><i class="fa-solid fa-paper-plane text-sm transform -rotate-180 -mr-0.5"></i></button>
+                </div>
+
+                <div id="recording-bar" class="hidden bg-gray-100 dark:bg-slate-800 rounded-3xl p-2 flex items-center gap-4 shadow-inner">
+                    <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    <span id="recording-timer" class="text-red-500 font-mono font-bold">00:00</span>
+                    <span class="flex-1 text-xs text-slate-400">جاري التسجيل...</span>
+                    <button onclick="cancelRecording()" class="text-slate-500 text-sm font-bold px-3">إلغاء</button>
+                    <button onclick="stopAndSendRecording()" class="h-10 w-10 rounded-full bg-red-500 text-white shadow-lg active:scale-95 flex items-center justify-center"><i class="fa-solid fa-paper-plane text-sm transform -rotate-180"></i></button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div id="crop-modal" class="hidden fixed inset-0 z-[70] bg-black/95 backdrop-blur-sm flex flex-col justify-center items-center p-4">
+        <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl overflow-hidden flex flex-col max-h-[80vh] border border-gray-200 dark:border-slate-700 shadow-2xl">
+            <div class="p-4 text-slate-800 dark:text-white flex justify-between items-center border-b border-gray-200 dark:border-slate-700">
+                <span class="font-bold text-sm">تظبيط الصورة</span>
+                <button onclick="closeCropModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="flex-1 bg-black overflow-hidden relative min-h-[300px] flex items-center justify-center">
+                <img id="image-to-crop" src="" class="max-w-full">
+            </div>
+            <div class="p-3 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
+                <button onclick="confirmCrop()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold transition shadow-lg">إعتماد</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="lightbox-modal" class="hidden fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center transition-opacity" onclick="closeLightbox()">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white bg-white/10 rounded-full w-10 h-10 flex items-center justify-center z-[101] hover:bg-white/20 transition"><i class="fa-solid fa-xmark"></i></button>
+        <img id="lightbox-image" src="" class="max-w-full max-h-[85vh] object-contain shadow-2xl rounded-lg" onclick="event.stopPropagation()">
+    </div>
+
+    <div id="gallery-modal" class="hidden fixed inset-0 z-[80] bg-black/90 backdrop-blur-sm flex flex-col p-4 animate-fade-in-up">
+        <div class="flex justify-between items-center mb-4 text-white">
+            <h2 class="text-xl font-bold font-cairo"><i class="fa-solid fa-images text-indigo-400 ml-2"></i>الصور 🖼️</h2>
+            <button onclick="closeGallery()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="gallery-grid" class="flex-1 overflow-y-auto grid grid-cols-3 gap-2 pb-10"></div>
+    </div>
+
+    <div id="love-modal" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-pop-in">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-sm rounded-3xl p-6 text-center shadow-2xl relative border border-white/20">
+            <button onclick="closeLoveCounter()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark text-xl"></i></button>
+            
+            <div class="w-20 h-20 mx-auto bg-rose-100 dark:bg-rose-900 rounded-full flex items-center justify-center mb-4 shadow-inner">
+                <i class="fa-solid fa-heart text-rose-500 text-4xl animate-pulse-slow"></i>
+            </div>
+            
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-1">عالمنا الخاص</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">بدأت قصتنا يوم 8/8/2025</p>
+            
+            <div class="grid grid-cols-3 gap-3 mb-6 dir-ltr">
+                <div class="bg-indigo-50 dark:bg-slate-700 p-3 rounded-xl">
+                    <span id="counter-days" class="block text-2xl font-bold text-indigo-600 dark:text-indigo-400">0</span>
+                    <span class="text-[10px] text-slate-500 dark:text-slate-400">يوم</span>
+                </div>
+                <div class="bg-pink-50 dark:bg-slate-700 p-3 rounded-xl">
+                    <span id="counter-hours" class="block text-2xl font-bold text-pink-600 dark:text-pink-400">0</span>
+                    <span class="text-[10px] text-slate-500 dark:text-slate-400">ساعة</span>
+                </div>
+                <div class="bg-emerald-50 dark:bg-slate-700 p-3 rounded-xl">
+                    <span id="counter-minutes" class="block text-2xl font-bold text-emerald-600 dark:text-emerald-400">0</span>
+                    <span class="text-[10px] text-slate-500 dark:text-slate-400">دقيقة</span>
+                </div>
+            </div>
+            <div class="bg-slate-100 dark:bg-slate-900 rounded-lg p-2">
+                 <span id="counter-seconds" class="font-mono text-slate-400 text-sm">00</span> <span class="text-xs text-slate-400">ثانية من الحب♥️💍</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, setDoc, updateDoc, getDoc, deleteField } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getDatabase, ref, set, onDisconnect, onValue, serverTimestamp, remove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyClkR6EFvT76t_fFJtuYobZ6KuvBtOF9DQ",
+            authDomain: "hassan-hanaa.firebaseapp.com",
+            databaseURL: "https://hassan-hanaa-default-rtdb.firebaseio.com",
+            projectId: "hassan-hanaa",
+            storageBucket: "hassan-hanaa.firebasestorage.app",
+            messagingSenderId: "1043376613384",
+            appId: "1:1043376613384:web:d8dfebe494727c609f49bd"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const rtdb = getDatabase(app);
+
+        let currentUser = null;
+        let cropperInstance = null;
+        let currentReply = null;
+        let uploadType = 'chat';
+        let longPressTimer;
+        let activeReactionMsgId = null;
+        let allCachedMessages = [];
+        let userProfilesMap = {}; // تخزين صور البروفايل
+
+        // Voice & Typing Vars
+        let mediaRecorder;
+        let audioChunks = [];
+        let recordingTimerInterval;
+        let recordingSeconds = 0;
+        let typingTimeout;
+        
+        // Audio Player Controls
+        let currentAudio = null;
+        let currentBtn = null;
+
+        const ARTIFACT_ID = 'hassan-hanaa-chat-v1';
+        const messagesCollection = collection(db, 'artifacts', ARTIFACT_ID, 'public', 'data', 'messages');
+        const profilesRef = collection(db, 'artifacts', ARTIFACT_ID, 'public', 'data', 'profiles');
+        const settingsRef = doc(db, 'artifacts', ARTIFACT_ID, 'public', 'data', 'settings', 'login_screen');
+
+        const sendSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.m4a');
+        const receiveSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.m4a');
+
+        // Theme Init
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') document.documentElement.classList.remove('dark');
+            else document.documentElement.classList.add('dark');
+        }
+        initTheme();
+
+        window.toggleTheme = function() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        onSnapshot(settingsRef, (docSnap) => {
+            if (docSnap.exists() && docSnap.data().imageUrl) {
+                document.getElementById('login-main-img').src = docSnap.data().imageUrl;
+            }
+        });
+
+        // --- AUDIO PLAYER LOGIC ---
+        window.toggleAudio = function(btn, audioId) {
+            const audio = document.getElementById(audioId);
+            const icon = btn.querySelector('i');
+            
+            if (currentAudio && currentAudio !== audio) {
+                currentAudio.pause();
+                if(currentBtn) {
+                    currentBtn.querySelector('i').className = "fa-solid fa-play text-slate-500 dark:text-slate-200 ml-1";
+                }
+            }
+
+            if (audio.paused) {
+                audio.play();
+                icon.className = "fa-solid fa-pause text-indigo-500 dark:text-indigo-300";
+                currentAudio = audio;
+                currentBtn = btn;
+            } else {
+                audio.pause();
+                icon.className = "fa-solid fa-play text-slate-500 dark:text-slate-200 ml-1";
+            }
+        }
+
+        window.updateProgress = function(audio, rangeId, timerId) {
+            const range = document.getElementById(rangeId);
+            const timer = document.getElementById(timerId);
+            
+            if(!isNaN(audio.duration)){
+                const percent = (audio.currentTime / audio.duration) * 100;
+                range.value = percent;
+                const mins = Math.floor(audio.currentTime / 60);
+                const secs = Math.floor(audio.currentTime % 60);
+                timer.innerText = `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+        }
+
+        window.seekAudio = function(range, audioId) {
+            const audio = document.getElementById(audioId);
+            const time = (range.value * audio.duration) / 100;
+            audio.currentTime = time;
+        }
+
+        window.resetAudioState = function(audioId, btnId) {
+            const btn = document.getElementById(btnId);
+            if(btn) btn.querySelector('i').className = "fa-solid fa-play text-slate-500 dark:text-slate-200 ml-1";
+        }
+
+
+        // --- AUTH ---
+        window.attemptLogin = function() {
+            const pass = document.getElementById('password-input').value;
+            const errorElement = document.getElementById('error-msg');
+            
+            if (pass === "1762003") loginSuccess("هناء", "حسن");
+            else if (pass === "15720006") loginSuccess("حسن", "هناء");
+            else {
+                errorElement.innerText = "اكتبي تاريخ ميلادك هنا يا حبيبتي ♥️";
+                errorElement.classList.remove('hidden');
+                setTimeout(() => errorElement.classList.add('hidden'), 3000);
+            }
+        }
+
+        function loginSuccess(myName, partnerName) {
+            currentUser = { name: myName, partner: partnerName };
+            localStorage.setItem('hassanHanaaUser', JSON.stringify(currentUser));
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('chat-interface').classList.remove('hidden');
+            document.getElementById('header-title').innerText = partnerName;
+            
+            setupPresence(myName);
+            watchPartnerStatus(partnerName);
+            startListeningForMessages();
+            loadProfilePics();
+            startLoveCounter();
+        }
+
+        // --- PRESENCE & TYPING ---
+        function setupPresence(myName) {
+            const myStatusRef = ref(rtdb, 'status/' + myName);
+            const connectedRef = ref(rtdb, '.info/connected');
+            onValue(connectedRef, (snap) => {
+                if (snap.val() === true) {
+                    onDisconnect(myStatusRef).set({ state: 'offline', last_changed: serverTimestamp() }).then(() => {
+                        set(myStatusRef, { state: 'online', last_changed: serverTimestamp(), typing: false });
+                    });
+                }
+            });
+        }
+
+        function watchPartnerStatus(partnerName) {
+            const partnerStatusRef = ref(rtdb, 'status/' + partnerName);
+            const subtitleEl = document.getElementById('header-subtitle');
+            const dot = document.getElementById('status-dot');
+            
+            onValue(partnerStatusRef, (snapshot) => {
+                const data = snapshot.val();
+                if (!data) return;
+
+                if (data.typing) {
+                    subtitleEl.innerText = 'يكتب الآن...';
+                    subtitleEl.className = 'text-[10px] font-bold text-pink-500 animate-pulse';
+                    return;
+                }
+
+                if (data.state === 'online') {
+                    subtitleEl.innerText = 'متصل الآن';
+                    subtitleEl.className = 'text-[10px] font-bold text-emerald-500 tracking-wide';
+                    dot.className = "absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full shadow-[0_0_8px_#10b981]";
+                } else {
+                    const lastSeen = new Date(data.last_changed);
+                    const timeStr = lastSeen.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    subtitleEl.innerText = `آخر ظهور: ${timeStr}`;
+                    subtitleEl.className = 'text-[10px] text-slate-500 dark:text-slate-400 font-medium';
+                    dot.className = "absolute bottom-0 right-0 w-3 h-3 bg-slate-400 border-2 border-white dark:border-slate-900 rounded-full";
+                }
+            });
+        }
+
+        window.handleTyping = function() {
+            if(!currentUser) return;
+            const myStatusRef = ref(rtdb, 'status/' + currentUser.name);
+            updateDocStatus(myStatusRef, true);
+            
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                updateDocStatus(myStatusRef, false);
+            }, 2000);
+        }
+
+        function updateDocStatus(ref, isTyping) {
+            import("https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js").then(mod => {
+                mod.update(ref, { typing: isTyping });
+            });
+        }
+
+
+        // --- MESSAGES ---
+        function startListeningForMessages() {
+            let firstLoad = true;
+            onSnapshot(messagesCollection, (snapshot) => {
+                const messages = [];
+                snapshot.docs.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const msg = { id: docSnap.id, ...data };
+                    messages.push(msg);
+
+                    if (currentUser && data.senderName !== currentUser.name && !data.read) {
+                        updateDoc(docSnap.ref, { read: true }).catch(err => console.log(err));
+                    }
+                });
+                
+                messages.sort((a, b) => a.timestamp - b.timestamp);
+                allCachedMessages = messages;
+                
+                if (!firstLoad && messages.length > 0) {
+                    const lastMsg = messages[messages.length - 1];
+                    if (lastMsg.senderName !== currentUser.name) {
+                         receiveSound.play().catch(e=>{});
+                         if('Notification' in window && document.hidden && Notification.permission === "granted") {
+                             try {
+                                new Notification("رسالة جديدة من " + lastMsg.senderName, { body: lastMsg.text || 'صورة/صوت', icon: 'https://cdn-icons-png.flaticon.com/512/2913/2913990.png' });
+                                document.title = "رسالة جديدة! ❤️";
+                             } catch(e) { console.log("Notification failed safely"); }
+                         }
+                    }
+                }
+                
+                renderMessages(messages);
+                const spinner = document.getElementById('loading-spinner');
+                if(spinner) spinner.classList.add('hidden');
+                firstLoad = false;
+            });
+        }
+        
+        document.addEventListener("visibilitychange", () => {
+             if (!document.hidden) document.title = "Hanaa & Hassan | Forever";
+        });
+
+        function renderMessages(messages) {
+            const container = document.getElementById('messages-container');
+            container.innerHTML = ''; 
+
+            if (messages.length === 0) {
+                container.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-slate-500 text-sm animate-fade-in-up"><i class="fa-regular fa-comments text-4xl mb-2"></i><p>أدامكِ الله لي شيئاً جميلاً لا ينتهي♥️💍</p></div>`;
+                return;
+            }
+
+            let lastDate = null;
+            messages.forEach((msg) => {
+                const isMe = msg.senderName === currentUser.name;
+                const dateObj = new Date(msg.timestamp);
+                const timeStr = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                const dateStr = dateObj.toLocaleDateString('ar-EG');
+
+                if (dateStr !== lastDate) {
+                    container.innerHTML += `<div class="flex justify-center my-4 animate-fade-in-up"><span class="bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-[10px] px-3 py-1 rounded-full shadow-sm">${dateStr}</span></div>`;
+                    lastDate = dateStr;
+                }
+
+                let replyHtml = '';
+                if (msg.replyTo) {
+                    replyHtml = `<div class="bg-black/10 dark:bg-black/20 p-2 rounded mb-1 border-r-4 border-indigo-400 text-[10px]"><span class="font-bold block text-indigo-600 dark:text-indigo-300 mb-0.5">${msg.replyTo.name}</span><span class="truncate block opacity-80 text-slate-700 dark:text-slate-300">${msg.replyTo.text}</span></div>`;
+                }
+
+                let contentHtml = '';
+                if (msg.imageUrl) {
+                    contentHtml += `<div class="rounded-lg overflow-hidden mb-1 mt-1"><img src="${msg.imageUrl}" class="w-full h-auto cursor-pointer hover:opacity-90 transition" onclick="openLightbox(this.src)"></div>`;
+                }
+                
+                // --- CUSTOM AUDIO PLAYER ---
+                if (msg.audioUrl) {
+                    const senderImg = userProfilesMap[msg.senderName] || `https://ui-avatars.com/api/?name=${msg.senderName}&background=random`;
+                    const audioId = `audio-${msg.id}`;
+                    const rangeId = `range-${msg.id}`;
+                    const timerId = `timer-${msg.id}`;
+                    const btnId = `btn-${msg.id}`;
+
+                    contentHtml += `
+                    <div class="flex items-center gap-3 w-[240px] py-1 select-none">
+                        <div class="relative w-12 h-12 shrink-0">
+                            <img src="${senderImg}" class="w-full h-full rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm">
+                            <div class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full flex items-center justify-center border border-white dark:border-slate-800">
+                                <i class="fa-solid fa-microphone text-[8px] text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 flex items-center gap-2">
+                            <button id="${btnId}" onclick="toggleAudio(this, '${audioId}')" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-slate-300 dark:hover:bg-slate-600 transition shadow-sm shrink-0">
+                                <i class="fa-solid fa-play text-slate-500 dark:text-slate-200 ml-1 text-xs"></i>
+                            </button>
+                            <div class="flex flex-col w-full gap-1">
+                                <input type="range" id="${rangeId}" value="0" class="audio-seeker" oninput="seekAudio(this, '${audioId}')">
+                                <span id="${timerId}" class="text-[10px] text-slate-500 dark:text-slate-400 font-mono self-end leading-none">0:00</span>
+                            </div>
+                        </div>
+                        <audio id="${audioId}" src="${msg.audioUrl}" class="hidden" ontimeupdate="updateProgress(this, '${rangeId}', '${timerId}')" onended="resetAudioState('${audioId}', '${btnId}')"></audio>
+                    </div>`;
+                }
+
+                if (msg.text) {
+                    contentHtml += `<div class="break-words" dir="auto">${msg.text}</div>`;
+                }
+
+                let reactionsHtml = '';
+                if (msg.reactions) {
+                    const reactionValues = Object.values(msg.reactions);
+                    if (reactionValues.length > 0) {
+                        const uniqueReactions = [...new Set(reactionValues)].join('');
+                        reactionsHtml = `<div class="reaction-badge ${isMe ? 'right-1' : 'left-1'} bottom-[-14px]" onclick="showReactionMenu(event.clientX, event.clientY, '${msg.id}')">${uniqueReactions}</div>`;
+                    }
+                }
+
+                const safeText = (msg.text || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const isImg = msg.imageUrl ? true : false;
+                const canDelete = currentUser.name === "حسن";
+
+                let checkMarks = '';
+                if (isMe) {
+                    checkMarks = msg.read ? '<i class="fa-solid fa-check-double text-sky-400 text-[10px] ml-1"></i>' : '<i class="fa-solid fa-check text-slate-400 text-[10px] ml-1"></i>';
+                }
+
+                const div = document.createElement('div');
+                div.className = `flex w-full group mb-1 ${isMe ? 'justify-start' : 'justify-end'}`; 
+                div.style.animation = `fadeInUp 0.4s ease-out forwards`;
+                
+                const bubbleId = `msg-bubble-${msg.id}`;
+                
+                const pressHandlers = `
+                    id="${bubbleId}"
+                    oncontextmenu="return false;"
+                    ontouchstart="handleTouchStart(event, '${msg.id}', '${msg.senderName}', '${safeText}', ${isImg})"
+                    ontouchend="handleTouchEnd(event)"
+                    ontouchmove="handleTouchMove(event)"
+                    onmousedown="handleMouseDown(event, '${msg.id}')"
+                    onmouseup="handleMouseUp(event)"
+                `;
+
+                div.innerHTML = `
+                    <div class="msg-bubble ${isMe ? 'msg-me' : 'msg-partner'} mb-2 transform" ${pressHandlers}>
+                        ${replyHtml}
+                        ${contentHtml}
+                        <div class="flex items-center justify-end gap-1 mt-1 opacity-70 text-[9px] font-medium">
+                            <span>${timeStr}</span>
+                            ${checkMarks}
+                        </div>
+                        ${reactionsHtml}
+                        
+                        ${canDelete ? `
+                        <div class="absolute -top-6 ${isMe ? 'right-0' : 'left-0'} opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 p-1 no-mobile-hover">
+                            <button onclick="deleteMessage('${msg.id}')" class="text-slate-500 dark:text-slate-400 hover:text-red-400 bg-slate-200 dark:bg-slate-800 rounded-full w-6 h-6 flex items-center justify-center border border-slate-300 dark:border-slate-600 shadow-md"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                        </div>` : ''}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            setTimeout(() => { container.scrollTop = container.scrollHeight; }, 100);
+        }
+
+        // --- VOICE RECORDER ---
+        window.startRecording = async function() {
+            if (!navigator.mediaDevices) { alert("المتصفح لا يدعم التسجيل"); return; }
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
+                
+                mediaRecorder.onstop = () => {
+                   stream.getTracks().forEach(track => track.stop());
+                };
+
+                mediaRecorder.start();
+                
+                document.getElementById('input-bar-normal').classList.add('hidden');
+                document.getElementById('recording-bar').classList.remove('hidden');
+                
+                recordingSeconds = 0;
+                document.getElementById('recording-timer').innerText = "00:00";
+                
+                recordingTimerInterval = setInterval(() => {
+                    recordingSeconds++;
+                    const mins = Math.floor(recordingSeconds / 60).toString().padStart(2, '0');
+                    const secs = (recordingSeconds % 60).toString().padStart(2, '0');
+                    document.getElementById('recording-timer').innerText = `${mins}:${secs}`;
+                }, 1000);
+
+            } catch (err) {
+                console.error(err);
+                alert("عاوز اوصل للمايك الأول طيب 👀😅♥️");
+            }
+        }
+
+        window.cancelRecording = function() {
+            if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+            resetRecordingUI();
+            audioChunks = [];
+        }
+
+        window.stopAndSendRecording = function() {
+            if(!mediaRecorder) return;
+            mediaRecorder.stop();
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                const reader = new FileReader();
+                reader.readAsDataURL(audioBlob);
+                reader.onloadend = async () => {
+                    const base64Audio = reader.result;
+                    if(base64Audio.length > 900000) { alert("التسجيل طويل جداً!"); resetRecordingUI(); return; } 
+                    await sendMessageInternal(null, null, base64Audio);
+                };
+                resetRecordingUI();
+            };
+        }
+
+        function resetRecordingUI() {
+            clearInterval(recordingTimerInterval);
+            document.getElementById('recording-bar').classList.add('hidden');
+            document.getElementById('input-bar-normal').classList.remove('hidden');
+        }
+
+        // --- CORE SEND LOGIC ---
+        window.sendMessage = async function() {
+            const input = document.getElementById('message-input');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = ''; input.style.height = 'auto'; input.focus();
+            await sendMessageInternal(text, null, null);
+        }
+
+        async function sendMessageInternal(text, imageUrl, audioUrl) {
+            if(!currentUser) return;
+            try {
+                await addDoc(messagesCollection, {
+                    text: text, 
+                    imageUrl: imageUrl, 
+                    audioUrl: audioUrl,
+                    senderName: currentUser.name, 
+                    timestamp: Date.now(),
+                    read: false,
+                    replyTo: currentReply ? { id: currentReply.id, name: currentReply.name, text: currentReply.text } : null
+                });
+                cancelReply();
+                sendSound.play().catch(e=>{});
+            } catch (e) { console.error("Error", e); }
+        }
+
+        // --- FEATURES: LOVE COUNTER & GALLERY ---
+        window.openLoveCounter = function() {
+            document.getElementById('love-modal').classList.remove('hidden');
+        }
+        window.closeLoveCounter = function() { document.getElementById('love-modal').classList.add('hidden'); }
+        
+        function startLoveCounter() {
+            const startDate = new Date('2025-08-08T00:00:00');
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - startDate;
+                if (diff < 0) {
+                     document.getElementById('counter-days').innerText = "0";
+                     return; 
+                }
+                
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / 1000 / 60) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+                
+                document.getElementById('counter-days').innerText = days;
+                document.getElementById('counter-hours').innerText = hours;
+                document.getElementById('counter-minutes').innerText = minutes;
+                document.getElementById('counter-seconds').innerText = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        window.openGallery = function() {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+            const images = allCachedMessages.filter(m => m.imageUrl);
+            
+            if(images.length === 0) {
+                grid.innerHTML = '<p class="text-white col-span-3 text-center mt-10">مفيش صور لسه 👀🤷‍♂️</p>';
+            } else {
+                images.forEach(img => {
+                    const div = document.createElement('div');
+                    div.className = "aspect-square bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition";
+                    div.innerHTML = `<img src="${img.imageUrl}" class="w-full h-full object-cover" loading="lazy">`;
+                    div.onclick = () => openLightbox(img.imageUrl);
+                    grid.appendChild(div);
+                });
+            }
+            document.getElementById('gallery-modal').classList.remove('hidden');
+        }
+        window.closeGallery = function() { document.getElementById('gallery-modal').classList.add('hidden'); }
+
+
+        // --- SWIPE & ACTIONS ---
+        let swipeData = { id: null, name: null, text: null, isImg: false };
+        let touchStartX = 0;
+        let touchCurrentX = 0;
+        let currentSwipedMsg = null;
+        let isSwiping = false;
+
+        window.handleTouchStart = function(e, msgId, senderName, text, isImg) {
+            touchStartX = e.touches[0].clientX;
+            currentSwipedMsg = document.getElementById(`msg-bubble-${msgId}`);
+            if(currentSwipedMsg) currentSwipedMsg.classList.remove('msg-snap-back');
+            swipeData = { id: msgId, name: senderName, text: text, isImg: isImg };
+            isSwiping = false;
+
+            longPressTimer = setTimeout(() => {
+                if (!isSwiping) showReactionMenu(e.touches[0].clientX, e.touches[0].clientY, msgId);
+            }, 400);
+        }
+
+        window.handleTouchMove = function(e) {
+            if (!currentSwipedMsg) return;
+            touchCurrentX = e.touches[0].clientX;
+            const diff = touchCurrentX - touchStartX;
+            if (Math.abs(diff) > 10) { clearTimeout(longPressTimer); isSwiping = true; }
+            if (Math.abs(diff) < 150) currentSwipedMsg.style.transform = `translateX(${diff}px)`;
+        }
+
+        window.handleTouchEnd = function(e) {
+            clearTimeout(longPressTimer);
+            if (currentSwipedMsg) {
+                const diff = touchCurrentX - touchStartX;
+                currentSwipedMsg.classList.add('msg-snap-back');
+                if (isSwiping && Math.abs(diff) > 60) {
+                    initiateReply(swipeData.id, swipeData.name, swipeData.text, swipeData.isImg);
+                    if(navigator.vibrate) navigator.vibrate(20);
+                }
+                currentSwipedMsg.style.transform = 'translateX(0)';
+                currentSwipedMsg = null;
+                isSwiping = false;
+            }
+        }
+
+        window.handleMouseDown = function(e, msgId) {
+            longPressTimer = setTimeout(() => showReactionMenu(e.clientX, e.clientY, msgId), 400);
+        }
+        window.handleMouseUp = function() { clearTimeout(longPressTimer); }
+
+        window.showReactionMenu = function(x, y, msgId) {
+            if(navigator.vibrate) navigator.vibrate(50);
+            activeReactionMsgId = msgId;
+            const menu = document.getElementById('reaction-menu');
+            const maxX = window.innerWidth - 250;
+            const finalX = Math.min(x, maxX);
+            menu.style.top = (y - 60) + 'px';
+            menu.style.left = (finalX - 20) + 'px';
+            menu.classList.remove('hidden');
+        }
+
+        window.hideReactionMenu = function() {
+            document.getElementById('reaction-menu').classList.add('hidden');
+            activeReactionMsgId = null;
+        }
+
+        window.submitReaction = async function(emoji) {
+            if (!activeReactionMsgId || !currentUser) return;
+            const msgRef = doc(db, 'artifacts', ARTIFACT_ID, 'public', 'data', 'messages', activeReactionMsgId);
+            try {
+                const docSnap = await getDoc(msgRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const currentReactions = data.reactions || {};
+                    if (currentReactions[currentUser.name] === emoji) {
+                        await updateDoc(msgRef, { [`reactions.${currentUser.name}`]: deleteField() });
+                    } else {
+                        await updateDoc(msgRef, { [`reactions.${currentUser.name}`]: emoji });
+                    }
+                }
+                hideReactionMenu();
+            } catch (e) { console.error(e); hideReactionMenu(); }
+        }
+
+        async function sendImageMessage(base64Image) {
+            await sendMessageInternal(null, base64Image, null);
+        }
+
+        window.deleteMessage = async function(docId) {
+            if(confirm("مسح الرسالة؟")) {
+                try { await deleteDoc(doc(db, 'artifacts', ARTIFACT_ID, 'public', 'data', 'messages', docId)); } catch (e) { console.error(e); }
+            }
+        }
+
+        window.initiateReply = function(id, name, text, isImage) {
+            currentReply = { id, name, text: isImage ? '📷 صورة' : text };
+            document.getElementById('reply-p-name').innerText = name;
+            document.getElementById('reply-p-text').innerText = currentReply.text;
+            document.getElementById('reply-preview-box').classList.remove('hidden');
+            document.getElementById('message-input').focus();
+        }
+
+        window.cancelReply = function() {
+            currentReply = null;
+            document.getElementById('reply-preview-box').classList.add('hidden');
+        }
+
+        // --- CROPPER & UPLOADS ---
+        window.handleImageUpload = function(input) {
+            uploadType = 'chat';
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imgElement = document.getElementById('image-to-crop');
+                imgElement.src = e.target.result;
+                document.getElementById('crop-modal').classList.remove('hidden');
+                if (cropperInstance) cropperInstance.destroy();
+                cropperInstance = new Cropper(imgElement, { viewMode: 1, dragMode: 'move', autoCropArea: 0.8, background: false });
+            };
+            reader.readAsDataURL(file);
+            input.value = '';
+        }
+        
+        window.changeMyProfilePic = function() { if (!currentUser) return; uploadType = 'profile'; document.getElementById('special-upload-input').click(); }
+        window.attemptChangeLoginPic = function() { uploadType = 'login'; document.getElementById('special-upload-input').click(); }
+        
+        window.handleSpecialUpload = function(input) {
+             window.handleImageUpload(input);
+        }
+
+        window.closeCropModal = function() {
+            document.getElementById('crop-modal').classList.add('hidden');
+            if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
+        }
+
+        window.confirmCrop = function() {
+            if (!cropperInstance) return;
+            const canvas = cropperInstance.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 });
+            if (canvas) {
+                const base64 = canvas.toDataURL('image/jpeg', 0.7);
+                if (uploadType === 'chat') sendImageMessage(base64);
+                else if (uploadType === 'profile') saveProfileToFirebase(base64);
+                else if (uploadType === 'login') saveLoginToFirebase(base64);
+                closeCropModal();
+            }
+        }
+        
+        async function saveProfileToFirebase(base64) {
+            if (!currentUser) return;
+            await setDoc(doc(db, 'artifacts', ARTIFACT_ID, 'public', 'data', 'profiles', currentUser.name), { imageUrl: base64, updatedAt: Date.now() });
+            alert("تمام اتغيرت يا  ❤️");
+        }
+
+        async function saveLoginToFirebase(base64) {
+            await setDoc(settingsRef, { imageUrl: base64, updatedAt: Date.now() });
+            alert("تمام كده ♥️");
+        }
+        
+        window.loadProfilePics = function() {
+            onSnapshot(profilesRef, (snapshot) => {
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if(data.imageUrl) {
+                        userProfilesMap[doc.id] = data.imageUrl;
+                    }
+                    if (currentUser && doc.id === currentUser.partner) {
+                        const avatarImg = document.getElementById('header-avatar-img');
+                        if (data.imageUrl) {
+                            avatarImg.src = data.imageUrl;
+                            avatarImg.classList.remove('hidden');
+                            document.getElementById('header-avatar-initial').classList.add('hidden');
+                        }
+                    }
+                });
+                if(allCachedMessages.length > 0) renderMessages(allCachedMessages);
+            });
+        }
+
+        window.openLightbox = function(src) {
+            document.getElementById('lightbox-image').src = src;
+            document.getElementById('lightbox-modal').classList.remove('hidden');
+        }
+        window.closeLightbox = function() { document.getElementById('lightbox-modal').classList.add('hidden'); }
+        
+        window.logout = function() {
+            if (currentUser) set(ref(rtdb, 'status/' + currentUser.name), { state: 'offline', last_changed: serverTimestamp() });
+            localStorage.removeItem('hassanHanaaUser');
+            location.reload();
+        }
+
+        window.toggleEmojiBar = function() { document.getElementById('emoji-bar').classList.toggle('hidden'); }
+        window.insertEmoji = function(emoji) { 
+            const input = document.getElementById('message-input');
+            input.value += emoji;
+            input.focus();
+        }
+
+        const emojis = ['❤️','😂','🥰','🔥','🥺','😭','😡','👍','🎉','🌸','💍','💋','👀','🤲','🌹','🌚','💔','😴','😎','🤔'];
+        const emojiGrid = document.querySelector('.emoji-grid');
+        emojis.forEach(e => {
+            const span = document.createElement('span');
+            span.className = "cursor-pointer text-2xl hover:bg-gray-200 dark:hover:bg-slate-700 p-2 rounded text-center transition";
+            span.innerText = e;
+            span.onclick = () => insertEmoji(e);
+            emojiGrid.appendChild(span);
+        });
+        
+        window.handleKeyPress = (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } };
+
+        if ('Notification' in window && Notification.permission !== "granted") Notification.requestPermission();
+
+        const savedUser = localStorage.getItem('hassanHanaaUser');
+        if (savedUser) {
+            const user = JSON.parse(savedUser);
+            loginSuccess(user.name, user.partner);
+        }
+
+        signInAnonymously(auth).catch((error) => console.error("Auth Error", error));
+    </script>
+</body>
+</html>
